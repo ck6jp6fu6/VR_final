@@ -7,6 +7,7 @@ public class CollisionList : MonoBehaviour {
 	public List<Collider> CollisionObjects;
 
 	public void OnTriggerEnter(Collider other){
+		//Debug.Log (other.gameObject.layer);
 		CollisionObjects.Add (other);
 	}
 

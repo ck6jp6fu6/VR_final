@@ -82,11 +82,17 @@ public class PlayerController : MonoBehaviour {
 		}
 		//決定鍵盤input的結果
 
-		/*if (Input.GetKey (KeyCode.W)){movDirection.z += 1;} 
-		if (Input.GetKey (KeyCode.S)){movDirection.z -= 1;} 
+		if (Input.GetKey (KeyCode.W)){
+			rigidBody.MovePosition (rigidBody.position + transform.forward * 2 * Time.deltaTime);
+			camrigidBody.MovePosition(rigidBody.position + transform.forward * 2 * Time.deltaTime);
+		} 
+		if (Input.GetKey (KeyCode.S)){
+			rigidBody.MovePosition (rigidBody.position + -transform.forward * 2 * Time.deltaTime);
+			camrigidBody.MovePosition(rigidBody.position + -transform.forward * 2 * Time.deltaTime);
+		} 
 		if (Input.GetKey (KeyCode.D)){movDirection.x += 1;} 
 		if (Input.GetKey (KeyCode.A)){movDirection.x -= 1;} 
-		*/
+
 		movDirection = movDirection.normalized;
 		//Vector3	camUp = GvrViewer.Instance.HeadPose.Orientation * Vector3.up;
 		//float VRMoveSpeed = camUp.z * MoveSpeedScale;
