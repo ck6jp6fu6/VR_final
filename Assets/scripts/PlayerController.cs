@@ -4,12 +4,10 @@ using System.Collections;
 using DG.Tweening;
 
 public class PlayerController : MonoBehaviour {
-	//private Animator animatorController;
-	//public Transform rotateYTransform;
-	//public Transform rotateXTransform;
+
 	private float rotateSpeed = 3;
 	private float rotateSpeedScale = 18f;
-	public float currentRotateX;
+
 	private float MoveSpeed = 3;
 	private float MoveSpeedScale = 12f;
 	float currentSpeed = 0;
@@ -18,49 +16,54 @@ public class PlayerController : MonoBehaviour {
 	public CollisionList touchSensor;
 	public GameObject CameraParent;
 	public Transform CameraTransform;
-
-	//public JumpSensor JumpSensor;
-	//public float JumpSpeed;
-	//public GunManager gunManager;
-	//public GameUIManager uiManager;
-	//public int hp = 100;
+	private ShootController shootControl;
+	public UIController uiManager;
+	public GameObject gameOver;
+	public int hp = 100;
 
 	// Use this for initialization
 	void Start () {
 		//animatorController = this.GetComponent<Animator> ();
 		camrigidBody = CameraParent.GetComponent<Rigidbody> ();
 		rigidBody = this.GetComponent<Rigidbody> ();
+		shootControl = this.GetComponent<ShootController> ();
 		VRSettings.enabled = true;
 	}
 
-	/*public void Hit(int value){
+	public void Hit(int value){
 		if (hp <= 0) {
 			return;
 		}
 		hp -= value;
-		uiManager.SetHP (hp);
+		uiManager.SetPoint (hp);
 
 		if (hp > 0) {
-			uiManager.PlayHitAnimation ();
+			uiManager.PlayHitAnimatoin();
 		} else {
-			uiManager.PlayDiedAnimation ();
+			gameOver.SetActive (true);
 
 			rigidBody.gameObject.GetComponent<Collider> ().enabled = false;
 			rigidBody.useGravity = false;
 			rigidBody.velocity = Vector3.zero;
 			this.enabled = false;
-			rotateXTransform.transform.DOLocalRotate (new Vector3 (-60, 0, 0), 0.5f);
-			rotateYTransform.transform.DOLocalMoveY (-1.0f, 0.5f).SetRelative (true);
+			//rotateXTransform.transform.DOLocalRotate (new Vector3 (-60, 0, 0), 0.5f);
+			//rotateYTransform.transform.DOLocalMoveY (-1.0f, 0.5f).SetRelative (true);
 		}
-	}*/
+	}
+
+	public void AddPoint(int point){
+		hp += point;
+		uiManager.SetPoint (hp);
+	}
 
 	// Update is called once per frame
 	void Update () 
 	{
 		Cursor.visible = false;
-		//if (fireSensor.FireObjects.Count > 0) {
-		//	gunManager.TryToTriggerGun ();
-		//}
+		if (Input.GetKey(KeyCode.Space)) {
+			//Debug.Log ("Shoot");
+			shootControl.TryToTriggerGun ();
+		}
 		Vector3 movDirection = Vector3.zero;
 		Vector3 VRMove = Vector3.zero;
 		rigidBody.transform.rotation = Quaternion.Euler (CameraTransform.transform.rotation.eulerAngles.x, 
@@ -122,12 +125,12 @@ public class PlayerController : MonoBehaviour {
 		//計算滑鼠
 	
 		//rotateYTransform.transform.localEulerAngles += new Vector3 (0,camaratransform.rotation.eulerAngles.y,0) * rotateSpeed;
-		currentRotateX += Input.GetAxis ("Vertical") * rotateSpeed;
+		/*currentRotateX += Input.GetAxis ("Vertical") * rotateSpeed;
 		if (currentRotateX > 90) {
 			currentRotateX = 90;
 		} else if (currentRotateX < -90) {
 			currentRotateX = -90;
-		}
+		}*/
 		//rotateXTransform.transform.localEulerAngles = new Vector3 (-currentRotateX,0,0);
 	}
 }
