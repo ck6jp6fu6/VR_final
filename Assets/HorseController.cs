@@ -27,7 +27,7 @@ public class HorseController : MonoBehaviour {
 
 			if (currentHP <= 0) {
 				this.transform.DOLocalRotate (new Vector3 ( 0, 0, -60), 0.5f);
-				player.SendMessage ("AddPoint", -40);
+				player.SendMessage ("AddPoint", -10);
 				BuryTheBody ();
 			}
 		}
