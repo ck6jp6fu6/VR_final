@@ -60,8 +60,8 @@ public class PlayerController : MonoBehaviour {
 	void Update () 
 	{
 		Cursor.visible = false;
-		if (Input.GetKey(KeyCode.Space)) {
-			//Debug.Log ("Shoot");
+		//if (Input.GetKey(KeyCode.Space)) {
+		if(touchSensor.CollisionObjects.Count > 0){
 			shootControl.TryToTriggerGun ();
 		}
 		Vector3 movDirection = Vector3.zero;
