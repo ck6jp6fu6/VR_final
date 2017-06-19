@@ -9,7 +9,7 @@ public class ShootController : MonoBehaviour {
 
 	private float shootCounter = 0;
 	private AudioSource arrowSound;
-
+	public Transform CameraTransform;
 	public GameObject arrow;
 
 	void Start(){
@@ -18,14 +18,14 @@ public class ShootController : MonoBehaviour {
 
 	public void TryToTriggerGun(){
 		if(shootCounter <= 0){
-			this.transform.DOShakeRotation (minimumShootPeriod * 0.8f, 3f);
+			CameraTransform.DOShakeRotation (minimumShootPeriod * 0.8f, 3f);
 			shootCounter = minimumShootPeriod;
 			GameObject newArrow = GameObject.Instantiate (arrow);
 			ArrowController arrowControl = newArrow.GetComponent<ArrowController> ();
-			arrowControl.transform.position = this.transform.position + new Vector3(0, 0.5f, 0);
-			var rot = this.transform.rotation;
+			arrowControl.transform.position = CameraTransform.position + new Vector3(0, 0.5f, 0);
+			var rot = CameraTransform.rotation;
 			arrowControl.transform.rotation = rot * Quaternion.Euler (0, 90, 0);
-			arrowControl.InitAndShoot (this.transform.forward);
+			arrowControl.InitAndShoot (CameraTransform.forward);
 			arrowSound.Play ();
 		}
 	}

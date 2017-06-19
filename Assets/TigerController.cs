@@ -57,7 +57,7 @@ public class TigerController : MonoBehaviour {
 		this.GetComponent<Rigidbody> ().useGravity = false;
 		this.GetComponent<Collider> ().enabled = false;
 		this.transform.DOLocalRotate (new Vector3 ( 0, 0, -60), 0.5f);
-		this.transform.DOMoveY (-0.8f, 1f).SetRelative (true).SetDelay (1).OnComplete (() => {
+		this.transform.DOMoveY (-0.8f, 1f).SetRelative (true).SetDelay (3).OnComplete (() => {
 			this.transform.DOMoveY (-0.8f, 1f).SetRelative (true).SetDelay (1).OnComplete (() => {
 				GameObject.Destroy (this.gameObject);
 			});

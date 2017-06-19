@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour {
 	public UIController uiManager;
 	public GameObject gameOver;
 	public int hp = 100;
+	public AudioSource gameOverSound;
+	public AudioSource bgm;
 
 	// Use this for initialization
 	void Start () {
@@ -27,7 +29,9 @@ public class PlayerController : MonoBehaviour {
 		camrigidBody = CameraParent.GetComponent<Rigidbody> ();
 		rigidBody = this.GetComponent<Rigidbody> ();
 		shootControl = this.GetComponent<ShootController> ();
+		//touchSensor = this.GetComponent<CollisionList> ();
 		VRSettings.enabled = true;
+		bgm.Play ();
 	}
 
 	public void Hit(int value){
@@ -41,7 +45,8 @@ public class PlayerController : MonoBehaviour {
 			uiManager.PlayHitAnimatoin();
 		} else {
 			gameOver.SetActive (true);
-
+			bgm.Pause ();
+			gameOverSound.Play ();
 			rigidBody.gameObject.GetComponent<Collider> ().enabled = false;
 			rigidBody.useGravity = false;
 			rigidBody.velocity = Vector3.zero;
@@ -61,33 +66,36 @@ public class PlayerController : MonoBehaviour {
 	{
 		Cursor.visible = false;
 		//if (Input.GetKey(KeyCode.Space)) {
-		if(touchSensor.CollisionObjects.Count > 0){
-			shootControl.TryToTriggerGun ();
-		}
+		/*if(touchSensor.CollisionObjects.Count > 0){
+			for (int i = 0; i < touchSensor.CollisionObjects.Count; i++) {
+				if (touchSensor.CollisionObjects [i] != null)
+					shootControl.TryToTriggerGun ();
+			}
+		}*/
 		Vector3 movDirection = Vector3.zero;
 		Vector3 VRMove = Vector3.zero;
 		rigidBody.transform.rotation = Quaternion.Euler (CameraTransform.transform.rotation.eulerAngles.x, 
 			CameraTransform.transform.rotation.eulerAngles.y, CameraTransform.transform.rotation.eulerAngles.z);
-		if (CameraTransform.transform.rotation.eulerAngles.x > 30 && CameraTransform.transform.rotation.eulerAngles.x < 90) {
+		if (CameraTransform.transform.rotation.eulerAngles.x > 10 && CameraTransform.transform.rotation.eulerAngles.x < 90) {
 			//VRMove.z += 1;
 			//VRMove = VRMove.normalized;
 			//Vector3 VRmovement = transform.forward * VRMove.z * Time.deltaTime;
-			rigidBody.MovePosition (rigidBody.position + transform.forward * 2 * Time.deltaTime);
-			camrigidBody.MovePosition(rigidBody.position + transform.forward * 2 * Time.deltaTime);
+			rigidBody.MovePosition (rigidBody.position + transform.forward * 7 * Time.deltaTime);
+			camrigidBody.MovePosition(rigidBody.position + transform.forward * 7 * Time.deltaTime);
 			movDirection.z += 1;
 			//CameraTransform.DOLocalMove (camaratransform.position + VRmovement, 0.5f);
 		}
 	
-		if (CameraTransform.transform.rotation.eulerAngles.x < 345 && CameraTransform.transform.rotation.eulerAngles.x > 270){
-			rigidBody.MovePosition (rigidBody.position + -transform.forward * 2 * Time.deltaTime);
-			camrigidBody.MovePosition(rigidBody.position + -transform.forward * 2 * Time.deltaTime);
+		if (CameraTransform.transform.rotation.eulerAngles.x < 330 && CameraTransform.transform.rotation.eulerAngles.x > 270){
+			rigidBody.MovePosition (rigidBody.position + -transform.forward * 5 * Time.deltaTime);
+			camrigidBody.MovePosition(rigidBody.position + -transform.forward * 5 * Time.deltaTime);
 			movDirection.z -= 1;
 		}
 		//決定鍵盤input的結果
 
 		if (Input.GetKey (KeyCode.W)){
-			rigidBody.MovePosition (rigidBody.position + transform.forward * 2 * Time.deltaTime);
-			camrigidBody.MovePosition(rigidBody.position + transform.forward * 2 * Time.deltaTime);
+			rigidBody.MovePosition (rigidBody.position + transform.forward * 20 * Time.deltaTime);
+			camrigidBody.MovePosition(rigidBody.position + transform.forward * 20 * Time.deltaTime);
 		} 
 		if (Input.GetKey (KeyCode.S)){
 			rigidBody.MovePosition (rigidBody.position + -transform.forward * 2 * Time.deltaTime);
